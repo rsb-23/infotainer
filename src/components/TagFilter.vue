@@ -25,7 +25,7 @@ export default {
   computed: {
     uniqueTags() {
       const tags = this.channels.flatMap((channel) => channel.tags);
-      return Array.from(new Set(tags));
+      return Array.from(new Set(tags)).sort();
     },
   },
   methods: {

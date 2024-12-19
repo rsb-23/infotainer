@@ -3,3 +3,5 @@ import App from "./App.vue";
 import "./assets/tailwind.css";
 
 createApp(App).mount("#app");
+
+document.title = "Infotainer";

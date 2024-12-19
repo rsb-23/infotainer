@@ -62,10 +62,13 @@ export default {
   },
   data() {
     return {
-      channels: channels,
+      channels: [],
       isDarkMode: false,
       selectedTags: [],
     };
+  },
+  mounted() {
+    this.channels = channels.sort((a, b) => a.name.localeCompare(b.name));
   },
   computed: {
     filteredChannels() {
