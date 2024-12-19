@@ -5,17 +5,3 @@ module.exports = defineConfig({
 module.exports = {
   publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
 };
-// const HtmlWebpackPlugin = require("html-webpack-plugin");
-// module.exports = {
-//   publicPath:
-//     process.env.NODE_ENV === "production" ? process.env.VUE_APP_BASE_URL : "/",
-//   configureWebpack: {
-//     plugins: [
-//       new HtmlWebpackPlugin({
-//         title: "Infotainer",
-//         template: "public/index.html",
-//         inject: true,
-//       }),
-//     ],
-//   },
-// };
