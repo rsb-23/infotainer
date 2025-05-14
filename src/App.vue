@@ -1,49 +1,49 @@
 <template>
-  <div :class="{ dark: isDarkMode }" class="min-h-screen p-4">
+  <div :class="{ dark: isDarkMode }" class="min-h-screen p-0 bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 transition-colors duration-300">
     <HeroSection />
-    <div id="dark-mode-toggle" class="absolute top-4 right-4">
-      <label class="flex items-center cursor-pointer">
-        <span class="mr-2 text-gray-900 dark:text-gray-100">🌙</span>
-        <!-- Dark mode icon -->
-        <input type="checkbox" class="hidden" v-model="isDarkMode" @click="toggleDarkMode" />
-        <div class="relative">
-          <div class="block bg-gray-600 w-12 h-6 rounded-full"></div>
-          <div
-            :class="{
-              'translate-x-6': !isDarkMode,
-              'translate-x-0': isDarkMode,
-            }"
-            class="absolute left-0 top-0 bg-blue-600 w-6 h-6 rounded-full transition-transform"
-          ></div>
-        </div>
-        <span class="ml-2 text-gray-900 dark:text-gray-100">🌞</span>
-        <!-- Light mode icon -->
-      </label>
-    </div>
-
-    <TagFilter :channels="channels" :selectedTags="selectedTags" @filter="applyFilter" />
+    <!-- Spacing between HeroSection and SearchBar -->
+    <div class="h-10"></div>
+    <!-- Use modularized dark mode toggle -->
+    <DarkModeToggle v-model="isDarkMode" @toggle="toggleDarkMode" />
 
     <!-- Search Bar -->
-    <SearchBar v-model="searchQuery" />
+    <div class="flex justify-center w-full">
+      <SearchBar
+        v-model="searchQuery"
+        :suggestions="searchSuggestions"
+        @search="onSearch"
+        @update:tags="selectedTags = $event"
+      />
+    </div>
+
+    <!-- Tag Filter (optional, can be restyled similarly if needed) -->
+    <div class="flex justify-center w-full">
+      <TagFilter
+        :channels="channels"
+        :selectedTags="selectedTags"
+        :allTags="allTags"
+        @filter="applyFilter"
+      />
+    </div>
 
     <!-- Tabs Section -->
-    <div class="mt-8">
-      <div class="flex border-b border-gray-300 dark:border-gray-700">
+    <div class="mt-12 max-w-7xl mx-auto px-2">
+      <div class="flex border-b border-blue-200 dark:border-blue-800 bg-white dark:bg-gray-900 rounded-t-2xl shadow-sm overflow-x-auto">
         <button
-          class="px-4 py-2 focus:outline-none"
+          class="px-6 py-3 focus:outline-none font-semibold text-lg transition-all duration-200"
           :class="{
-            'border-b-2 border-blue-600 text-blue-600': activeTab === 'channels',
-            'text-gray-900 dark:text-gray-100': activeTab !== 'channels',
+            'border-b-4 border-blue-600 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950': activeTab === 'channels',
+            'text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-900': activeTab !== 'channels',
           }"
           @click="activeTab = 'channels'"
         >
           Channels
         </button>
         <button
-          class="px-4 py-2 focus:outline-none"
+          class="px-6 py-3 focus:outline-none font-semibold text-lg transition-all duration-200"
           :class="{
-            'border-b-2 border-blue-600 text-blue-600': activeTab === 'playlists',
-            'text-gray-900 dark:text-gray-100': activeTab !== 'playlists',
+            'border-b-4 border-blue-600 text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950': activeTab === 'playlists',
+            'text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-900': activeTab !== 'playlists',
           }"
           @click="activeTab = 'playlists'"
         >
@@ -52,8 +52,8 @@
       </div>
 
       <!-- Channels Tab -->
-      <div v-if="activeTab === 'channels'" class="mt-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div v-if="activeTab === 'channels'" class="mt-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           <CardComponent
             v-for="channel in filteredChannels"
             :key="channel.id"
@@ -67,8 +67,8 @@
       </div>
 
       <!-- Playlists Tab -->
-      <div v-if="activeTab === 'playlists'" class="mt-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div v-if="activeTab === 'playlists'" class="mt-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           <CardComponent
             v-for="playlist in filteredPlaylists"
             :key="playlist.id"
@@ -89,6 +89,7 @@ import CardComponent from "./components/CardComponent.vue";
 import HeroSection from "./components/HeroSection.vue";
 import TagFilter from "./components/TagFilter.vue";
 import SearchBar from "./components/SearchBar.vue";
+import DarkModeToggle from "./components/DarkModeToggle.vue";
 import channels from "./data/channels";
 import playlists from "./data/playlists";
 
@@ -99,6 +100,7 @@ export default {
     HeroSection,
     TagFilter,
     SearchBar,
+    DarkModeToggle,
   },
   data() {
     return {
@@ -127,6 +129,20 @@ export default {
         : this.playlists;
       return filteredByTags.filter((playlist) => playlist.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
+    allTags() {
+      // Collect tags from both channels and playlists for autocomplete
+      const channelTags = this.channels.flatMap((c) => c.tags || []);
+      const playlistTags = this.playlists.flatMap((p) => p.tags || []);
+      return Array.from(new Set([...channelTags, ...playlistTags])).sort();
+    },
+    searchSuggestions() {
+      // Suggest channel names, playlist names, and all tags
+      const channelNames = this.channels.map((c) => c.name);
+      const playlistNames = this.playlists.map((p) => p.name);
+      return Array.from(
+        new Set([...channelNames, ...playlistNames, ...this.allTags])
+      ).sort();
+    },
   },
   methods: {
     toggleDarkMode() {
@@ -140,16 +156,30 @@ export default {
         this.selectedTags.push(tag);
       }
     },
+    onSearch(query) {
+      // If the query matches a tag, auto-select it
+      if (this.allTags.includes(query) && !this.selectedTags.includes(query)) {
+        this.selectedTags.push(query);
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Style for toggle switch */
-#dark-mode-toggle {
-  padding: 1em;
+/* Modernize scrollbar for suggestions and grid */
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
 }
-.cursor-pointer {
-  cursor: pointer;
+::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+#dark-mode-toggle {
+  padding: 0;
 }
 </style>
