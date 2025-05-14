@@ -61,6 +61,7 @@
             :description="channel.description"
             :id="channel.id"
             :logo="channel.logo"
+            type="channel"
           />
         </div>
       </div>
@@ -75,6 +76,7 @@
             :description="playlist.description"
             :id="playlist.id"
             :logo="playlist.logo"
+            type="playlist"
           />
         </div>
       </div>

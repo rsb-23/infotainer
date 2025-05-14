@@ -9,7 +9,7 @@
     />
     <h2 class="text-xl font-semibold mb-2 text-gray-900" align="center">
       <a
-        :href="channelUrl"
+        :href="itemUrl"
         class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
         target="_blank"
         rel="noopener noreferrer"
@@ -39,6 +39,10 @@ export default {
     name: String,
     description: String,
     logo: String,
+    type: {
+      type: String,
+      default: "channel", // "channel" or "playlist"
+    },
   },
   data() {
     return {
@@ -46,7 +50,12 @@ export default {
     };
   },
   computed: {
-    channelUrl() {
+    itemUrl() {
+      // Use different URL patterns for channel and playlist
+      if (this.type === "playlist") {
+        return `https://www.youtube.com/playlist?list=${this.id}`;
+      }
+      // Default to channel
       return `https://www.youtube.com/${this.id}`;
     },
     isTruncated() {
