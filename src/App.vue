@@ -5,12 +5,7 @@
       <label class="flex items-center cursor-pointer">
         <span class="mr-2 text-gray-900 dark:text-gray-100">🌙</span>
         <!-- Dark mode icon -->
-        <input
-          type="checkbox"
-          class="hidden"
-          v-model="isDarkMode"
-          @click="toggleDarkMode"
-        />
+        <input type="checkbox" class="hidden" v-model="isDarkMode" @click="toggleDarkMode" />
         <div class="relative">
           <div class="block bg-gray-600 w-12 h-6 rounded-full"></div>
           <div
@@ -26,11 +21,7 @@
       </label>
     </div>
 
-    <TagFilter
-      :channels="channels"
-      :selectedTags="selectedTags"
-      @filter="applyFilter"
-    />
+    <TagFilter :channels="channels" :selectedTags="selectedTags" @filter="applyFilter" />
 
     <!-- Search Bar -->
     <SearchBar v-model="searchQuery" />
@@ -62,9 +53,7 @@
 
       <!-- Channels Tab -->
       <div v-if="activeTab === 'channels'" class="mt-4">
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <CardComponent
             v-for="channel in filteredChannels"
             :key="channel.id"
@@ -78,9 +67,7 @@
 
       <!-- Playlists Tab -->
       <div v-if="activeTab === 'playlists'" class="mt-4">
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <CardComponent
             v-for="playlist in filteredPlaylists"
             :key="playlist.id"
@@ -128,23 +115,15 @@ export default {
   computed: {
     filteredChannels() {
       const filteredByTags = this.selectedTags.length
-        ? this.channels.filter((channel) =>
-            this.selectedTags.every((tag) => channel.tags.includes(tag))
-          )
+        ? this.channels.filter((channel) => this.selectedTags.every((tag) => channel.tags.includes(tag)))
         : this.channels;
-      return filteredByTags.filter((channel) =>
-        channel.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return filteredByTags.filter((channel) => channel.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
     filteredPlaylists() {
       const filteredByTags = this.selectedTags.length
-        ? this.playlists.filter((playlist) =>
-            this.selectedTags.every((tag) => playlist.tags.includes(tag))
-          )
+        ? this.playlists.filter((playlist) => this.selectedTags.every((tag) => playlist.tags.includes(tag)))
         : this.playlists;
-      return filteredByTags.filter((playlist) =>
-        playlist.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return filteredByTags.filter((playlist) => playlist.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
   },
   methods: {
