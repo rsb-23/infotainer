@@ -3,7 +3,7 @@
     <button
       v-for="tag in uniqueTags"
       :key="tag"
-      @click="filterByTag(tag)"
+      @click="toggleTag(tag)"
       :class="{
         'bg-blue-500 text-white': selectedTags.includes(tag),
         'bg-gray-200 text-gray-800': !selectedTags.includes(tag),
@@ -29,8 +29,11 @@ export default {
     },
   },
   methods: {
-    filterByTag(tag) {
-      this.$emit("filter", tag);
+    toggleTag(tag) {
+      const updatedTags = this.selectedTags.includes(tag)
+        ? this.selectedTags.filter((t) => t !== tag)
+        : [...this.selectedTags, tag];
+      this.$emit("filter", updatedTags);
     },
   },
 };
