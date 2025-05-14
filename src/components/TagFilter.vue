@@ -1,18 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-2 mb-4">
-    <button
-      v-for="tag in uniqueTags"
-      :key="tag"
-      @click="toggleTag(tag)"
-      :class="{
-        'bg-blue-500 text-white': selectedTags.includes(tag),
-        'bg-gray-200 text-gray-800': !selectedTags.includes(tag),
-      }"
-      class="py-2 px-4 rounded-lg transition duration-300 ease-in-out hover:bg-blue-400"
-    >
-      {{ tag }}
-    </button>
-  </div>
+  <!-- No tag buttons, render nothing -->
 </template>
 
 <script>
@@ -40,7 +27,5 @@ export default {
 </script>
 
 <style scoped>
-button {
-  cursor: pointer;
-}
+/* ...existing code... */
 </style>
