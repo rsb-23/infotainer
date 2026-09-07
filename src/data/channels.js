@@ -20,7 +20,7 @@ export default [
     id: "@veritasium",
     name: "Veritasium",
     description: "An element of truth - videos about science, education, and anything else I find interesting.",
-    logo: `${ytLogoUrl}/ytc/AIdro_nSatGjGLZG1_O1ztYxuKvRazCbk9A0kPhtt2NxEH4ZKfA${size}`,
+    logo: `${ytLogoUrl}/7vCbvtCqtjQ3YLgsJt7Y952MQV1sBvhllSCSxHP8_sVZdcPCBrITfhkN2RdyCuwPnsByq-1GoA${size}`,
     tags: ["science"],
   },
   {
@@ -119,7 +119,7 @@ export default [
     name: "Think School",
     description:
       "Their mission is to teach subjects like business, geopolitics, and economics that schools and colleges often neglect, preparing students for the real world",
-    logo: `${ytLogoUrl}/BBEpxf5b-Vtyi_I41xyPoWcNA9kqLT1LCHDlE1BX-_TZ0YQqXllMu5ee-3ECvVPgS1CCExeS6g${size}`,
+    logo: `${ytLogoUrl}/9BhJtkvh3GjjLqtve2o-CKZJPb79ZEwjoqag9JznlIywBimKTeIfpVQMyrnTIYoXXQOm2hY9nA${size}`,
     tags: ["business", "geopolitics", "economics"],
   },
   {

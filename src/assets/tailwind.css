@@ -1,15 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Dark mode styles */
-body {
-  @apply bg-gray-100 dark:bg-gray-900;
-  @apply text-gray-900 dark:text-gray-100;
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  scroll-behavior: smooth;
 }
 
-/* Custom dark mode styles for cards */
-.card {
-  @apply bg-white dark:bg-gray-800;
-  @apply text-gray-900 dark:text-gray-100;
+body {
+  margin: 0;
+  color: #30363d;
+  font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+  background-color: #e8ebed;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(96, 118, 135, 0.12) 32px), linear-gradient(to right, rgba(170, 70, 70, 0.12) 0, rgba(170, 70, 70, 0.12) 2px, transparent 2px, transparent 100%);
+  background-size: 100% 32px, 100% 100%;
+}
+
+.dark body {
+  color: #e3e7ea;
+  background-color: #30353a;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(190, 202, 212, 0.08) 32px), linear-gradient(to right, rgba(185, 105, 105, 0.16) 0, rgba(185, 105, 105, 0.16) 2px, transparent 2px, transparent 100%);
+}
+
+button,
+input,
+a {
+  font-family: inherit;
+}
+
+::selection {
+  background: #b9c8d3;
+  color: #1f2930;
 }
